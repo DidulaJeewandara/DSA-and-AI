@@ -14,17 +14,25 @@ class Car:
         self.width = 50
         self.height = 30
         self.color = (250, 225, 234)  # RGB color
-        self.surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+        self.surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA) #this
         self.surface.fill(self.color)
+        self.bounce = 0.5 #bounciness factor
+
+        self.rect = self.surface.get_rect(center=(self.x, self.y))
+    
+
+       
 
     def drive(self):
         # Update position based on speed and angle
         rad_angle = math.radians(self.angle)
         self.x += self.speed * math.cos(rad_angle)
         self.y += self.speed * math.sin(rad_angle)
+
+        self.rect.center = (self.x, self.y)
     
     def draw(self, screen):
         # Rotate the car surface and draw it on the screen
         rotated_surface = pygame.transform.rotate(self.surface, -self.angle)
         rect = rotated_surface.get_rect(center=(self.x, self.y))
-        screen.blit(rotated_surface, rect.topleft)
+        screen.blit(rotated_surface, rect.topleft) #draw the car
