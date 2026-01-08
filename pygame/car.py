@@ -3,8 +3,8 @@ import math
 
 class Car:
     def __init__(self, x, y, angle=0):
-        self.x = x
-        self.y = y
+        self.x = x #x is position on x axis
+        self.y = y   #y is position on y axis
         self.angle = angle  # in degrees
         self.speed = 0
         self.max_speed = 10
