@@ -20,7 +20,10 @@ class Game:
         self.barriers = [
             Barrier(200, 150, 400, 20),
             Barrier(100, 300, 20, 200),
-            Barrier(600, 400, 150, 20)
+            Barrier(600, 400, 150, 20),
+            Barrier(134, 545, 200, 40),
+            Barrier(500, 100, 20, 150),
+            Barrier(300, 350, 250, 20)
         ]
         self.running = True
 
@@ -31,7 +34,7 @@ class Game:
                          self.car.speed += self.car.acceleration
             elif keys[pygame.K_DOWN]:
                 if self.car.speed > -self.car.max_speed:
-                    self.car.speed -= self.car.deceleration
+                    self.car.speed += -self.car.acceleration
             else:
                 if self.car.speed > 0:
                     self.car.speed -= self.car.deceleration
@@ -39,9 +42,9 @@ class Game:
                     self.car.speed += self.car.deceleration
 
             if keys[pygame.K_LEFT]:
-                self.car.angle += self.car.turn_speed
-            if keys[pygame.K_RIGHT]:
                 self.car.angle -= self.car.turn_speed
+            if keys[pygame.K_RIGHT]:
+                self.car.angle += self.car.turn_speed
             
             if self.car.x<0:
                 self.car.x=0
