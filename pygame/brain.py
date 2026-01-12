@@ -10,8 +10,8 @@ class NeuralNetwork(nn.Module):
         self.gamma=0.9
 
         self.model = nn.Sequential(
-            nn.Linear(5, 128),  # Assuming 5 input features
-            nn.ReLU(),#activation function
+            nn.Linear(7, 128),  # Assumin 7 input features (i added a goal)
+            nn.ReLU(),
             nn.Linear(128,self.number_of_actions)
         )
 

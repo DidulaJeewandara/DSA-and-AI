@@ -24,11 +24,11 @@ class Game:
 
         self.barriers = [
             Barrier(200, 150, 400, 20),
-            Barrier(100, 300, 20, 200),
+            
             Barrier(600, 400, 150, 20),
             Barrier(134, 545, 200, 40),
-          
-            Barrier(400, 500, 300, 20)
+            Barrier(500, 100, 20, 150),
+            Barrier(300, 350, 250, 20)
 
         ]
         self.running = True
@@ -58,6 +58,11 @@ class Game:
     
 
     def run(self):
+
+        self.goal_x=700
+        self.goal_y=500
+        self.goal_radius=10
+
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -68,11 +73,16 @@ class Game:
             for barrier in self.barriers:
                 barrier.draw(self.screen)
 
+            pygame.draw.circle(self.screen, (0, 255, 0), (self.goal_x, self.goal_y), 10)
+
+            dist_x = (self.goal_x - self.car.x) / 800.0
+            dist_y = (self.goal_y - self.car.y) / 600.0
+
         
             self.car.update_sensors(self.screen) 
             
         
-            current_state = [d / 300.0 for d in self.car.data]
+            current_state = [d / 300.0 for d in self.car.data]+ [dist_x, dist_y]  # added goal distances
             action = self.get_AI_action(current_state)
 
             
@@ -85,6 +95,7 @@ class Game:
 
             # 5.
             crashed = self.handle_collisions()
+            pixel_dist_to_goal = math.sqrt((self.goal_x - self.car.x)**2 + (self.goal_y - self.car.y)**2)
             reward = 0
             done = False
 
@@ -92,21 +103,33 @@ class Game:
                 reward = -50
                 done = True
                 self.episode_reward = 0
-                self.car.x, self.car.y = 400, 300 # Reset
+                self.car.x, self.car.y = 15,25 # Reset
+                
                 self.car.angle = 0
+
+            elif pixel_dist_to_goal < 20+self.goal_radius:
+                reward = 100
+                done = True
+                self.episode_reward += 100
+                self.car.x, self.car.y = 15, 25 # Reset
+                self.car.angle = 0
+                self.goal_x = random.randint(50, 750)
+                self.goal_y = random.randint(50, 550)
+            
+            
             else:
                 reward = 1
                 self.episode_reward += 1
 
-        
+    
             self.car.update_sensors(self.screen)
-            new_state = [d / 300.0 for d in self.car.data]
+            new_state = [d / 300.0 for d in self.car.data]+ [dist_x, dist_y]  # added goal distances
 
-            
-            if len(current_state) == 5 and len(new_state) == 5:
+
+            if len(current_state) == 7 and len(new_state) == 7: #added a goal
                 self.brain.train_step(current_state, action, reward, new_state, done)
 
-            
+        
             if self.epsilon > self.min_epsilon:
                 self.epsilon *= self.epsilon_decay
 
