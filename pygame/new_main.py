@@ -75,7 +75,7 @@ class Game:
             current_state = [d / 300.0 for d in self.car.data]
             action = self.get_AI_action(current_state)
 
-            # 4. MOVE
+            
             if action == 0:
                 self.car.angle += 10
             elif action == 2:
@@ -98,20 +98,19 @@ class Game:
                 reward = 1
                 self.episode_reward += 1
 
-            # 6. GET NEW STATE (For Training)
-            # We must update sensors AGAIN to see where we landed
+        
             self.car.update_sensors(self.screen)
             new_state = [d / 300.0 for d in self.car.data]
 
-            # 7. TRAIN
+            
             if len(current_state) == 5 and len(new_state) == 5:
                 self.brain.train_step(current_state, action, reward, new_state, done)
 
-            # 8. UPDATE EPSILON (FIXED: spelling)
+            
             if self.epsilon > self.min_epsilon:
                 self.epsilon *= self.epsilon_decay
 
-            # 9. DRAW
+            
             self.car.draw(self.screen)
             pygame.display.flip()
             self.clock.tick(60)
