@@ -1,7 +1,7 @@
 import pygame
 from pygame.math import Vector2
 from car import Car 
-from barriers import Barrier
+from old_barrier import Barrier
 import math
 
 
@@ -23,7 +23,10 @@ class Game:
             Barrier(600, 400, 150, 20),
             Barrier(134, 545, 200, 40),
             Barrier(500, 100, 20, 150),
-            Barrier(300, 350, 250, 20)
+            Barrier(300, 350, 250, 20),
+            Barrier(700, 250, 20, 200),
+            Barrier(400, 500, 300, 20)
+            
         ]
         self.running = True
 
