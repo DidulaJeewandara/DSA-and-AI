@@ -1,9 +1,9 @@
 import pygame
 import math
 import random
-from assest.autonomous.car_new import Car
-from assest.autonomous.barriers import Barrier
-from assest.autonomous.brain import NeuralNetwork
+from car_new import Car
+from barriers import Barrier
+from brain import NeuralNetwork
 import torch
 
 

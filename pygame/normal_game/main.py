@@ -1,7 +1,7 @@
 import pygame
 from pygame.math import Vector2
-from assest.normal_game.car import Car 
-from assest.normal_game.old_barrier import Barrier
+from car import Car 
+from old_barrier import Barrier
 import math
 
 
