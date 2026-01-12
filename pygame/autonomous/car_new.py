@@ -24,7 +24,7 @@ class Car:
         self.data = []   # For the AI (Distances)
 
     def drive(self):
-        # 1. Physics (Move the car)
+        
         rad_angle = math.radians(self.angle)
         self.x += self.speed * math.cos(rad_angle)
         self.y += self.speed * math.sin(rad_angle)
